@@ -354,7 +354,10 @@ body.v2-on { margin:0 }
 .v2 b + small, .v2 strong + small { display:block; }
 .v2 button { cursor:pointer; }
 .v2 svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
-.v2 .shell { display:grid; grid-template-columns:220px minmax(0,1fr); height:100dvh; min-height:0; overflow:hidden; }
+/* X75-RAIL: ширина панелі — важіль, а не зашите число (стенд :237). Дефолт 220
+   той самий, що стояв тут раніше: перехід на змінну картинку не рухає (1.18). */
+.v2 { --side-w:220px; }
+.v2 .shell { display:grid; grid-template-columns:var(--side-w) minmax(0,1fr); height:100dvh; min-height:0; overflow:hidden; }
 .v2 .sidebar { display:flex; min-height:0; flex-direction:column; padding:20px 8px; overflow:auto; border-right:1px solid var(--line); background:var(--anc-canvas); }
 .v2 .brand { display:flex; gap:11px; align-items:center; padding:0 14px 21px; border-bottom:1px solid var(--line); }
 .v2 .brand-mark, .v2 .icon-chip { display:grid; place-items:center; flex:0 0 auto; color:white; background: var(--anc-blue); border-radius:9px; }
@@ -537,8 +540,6 @@ body.v2-on { margin:0 }
 .v2 .table-footer { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 16px; color:var(--anc-gray); font-size:12px; }
 .v2 .pagination { display:flex; align-items:center; gap:5px; }
 .v2 .pagination .page-gap { padding:0 1px; color:var(--anc-gray); }
-/* X72 · E4: сценарій без номера — не порожня клітинка, а названа причина */
-.v2 .e4-noplace { color:var(--anc-gray); }
 .v2 .pagination button { width:31px; height:31px; border:1px solid var(--anc-border); border-radius:6px; color:var(--anc-text-2); background:#fff; }
 .v2 .pagination button.active { border-color:var(--anc-blue); color:var(--anc-text); background:var(--anc-yellow-25); }
 .v2 .e6-filters { padding:12px 15px 0; }
@@ -767,6 +768,21 @@ body.v2-on { margin:0 }
    зсуву 160 — живі значення стенда, внесені під device-раунд (12.9). */
 /* заглушка: пункт стоїть і підписаний, але екрана ще нема */
 .v2 .side-link.stub { color:var(--anc-gray-light); cursor:default; }
+/* ── X75-RAIL · ДРУГИЙ СТАН ПАНЕЛІ (порт зі стенда v19 :238-243 · :251) ──
+   живе доки: рейка не дістала власного вироку device (тоді числа — в ЛОК)
+   ⚠ @media — відступ від стенда: стенд тільки ПК, а тут ≤980 панель уже
+   горизонтальна смуга, і схований .lbl знищив би в ній підписи.
+   ⚠ transition НЕМА свідомо: плавність — окремий щабель черги (рух Х27-К3). */
+@media (min-width:981px) {
+  .v2[data-mode="rail"] { --side-w:72px; }
+  .v2[data-mode="rail"] .brand { padding:0 0 21px; justify-content:center; }
+  .v2[data-mode="rail"] .brand .brand-text { display:none; }
+  .v2[data-mode="rail"] .side-link { gap:0; padding:0; justify-content:center;
+      border-left-width:0; border-radius:8px; }
+  .v2[data-mode="rail"] .side-link .lbl { display:none; }
+  .v2[data-mode="rail"] .side-bottom button { justify-content:center; gap:0; padding:9px 0; }
+  .v2[data-mode="rail"] .side-bottom .lbl { display:none; }
+}
 /* підказка заглушки — окремим шаром у body */
 #v2-tip { position:fixed; z-index:99; padding:5px 9px; border-radius:6px; color:#fff; background:#1C1E24;
           font:12px/1.4 system-ui, sans-serif; white-space:nowrap; pointer-events:none; opacity:0; transition:opacity .12s; }
@@ -964,7 +980,7 @@ const V2_SETS = {
   '4': [['picker','i-play','Тренування'], ['scenarios','i-doc','Сценарії'],
         ['catalog','i-box','Каталог'],    ['results','i-bars','Результати']],
   '6': [['dash','i-grid','Дашборд'],      ['ascen','i-doc','Сценарії'],
-        ['catalog','i-box','Каталог'],    ['models','i-chip','AI / Моделі'],
+        ['acatalog','i-box','Каталог'],   ['models','i-chip','AI / Моделі'],
         ['prompts','i-chat','Промпти'],   ['system','i-gear','Система']]
 };
 /* ⚠ SPEC §8: ДВА РЕЖИМИ, СПІЛЬНОЇ НАВІГАЦІЇ В НИХ НЕМА.
@@ -973,8 +989,11 @@ const V2_SETS = {
    Вирок оператора S62 виправляє попередню редакцію, де живі екрани
    підмішувались у кураторський набір: такого правила не існує. */
 /* X72: 'ascen' — кураторський «Сценарії» (правка, A2 мокапу). Ключ окремий від
-   звичайного 'scenarios' (E4, список): підпис спільний, екрани різні. */
-const V2_CUR = new Set(['dash','models','prompts','system','settings','escen','ascen']);
+   звичайного 'scenarios' (E4, список): підпис спільний, екрани різні.
+   X74-ACATALOG: те саме для «Каталогу». 'catalog' — E6, вітрина фармацевта
+   тільки для читання; у куратора за SPEC A3 (правка позицій), ключ 'acatalog'.
+   Обидва кураторські пункти — заглушки, поки немає екранів (живість з V2, П80). */
+const V2_CUR = new Set(['dash','models','prompts','system','settings','escen','ascen','acatalog']);
 function v2Nav(active){
   return V2_SETS[V2_CUR.has(active) ? '6' : '4'];
 }
@@ -1094,6 +1113,17 @@ function door(){
   return el('div', {class:'side-bottom door door-a' + (open ? ' is-open' : '')}, [card]);
 }
 /* ── /Х22.4 двері · JS ── */
+/* ── X75-RAIL · дім важеля стану панелі (12.11) ────────────────────────
+   Пам'ять модуля, як DOOR: стан панелі не лягає ні в S, ні в localStorage —
+   це поза́ даними сесії. Атрибут data-mode на .v2 ставить normalShell(),
+   рівно як data-shell (стенд :1219).
+   Важіль — САМ ЛОГОТИП (стенд :408 · :1406), нового елемента не додаємо:
+   стенд уже оголосив логотип кнопкою, а продукт лишив його простим блоком —
+   це і є той борг, що закривається тут.
+   ⚠ Кутових дужок у цьому коментарі нема свідомо: H2 рахує імена тегів
+   текстом і дав би хибне ⚠ на балансі через сам коментар (12.12). */
+let V2_RAIL = false;
+function railToggle(){ V2_RAIL = !V2_RAIL; render(); }
 function sidebar(active){
   /* Х24.3 · В-43: панель несе ЛИШЕ бренд на E2 (game) і E3 (result). На обох екранах
      вихід живе в шапці; на E3 другі двері збоку знищили б незбережений підсумок. */
@@ -1107,7 +1137,10 @@ function sidebar(active){
       class:'side-link'+(active===screen?' active':'')+(live?'':' stub'),
       'aria-current':(live && active===screen)?'page':null,
       'data-v2-nav':screen };
-    if(live){ a.onclick = ()=>{ S.screen = screen; render(); }; }
+    if(live){ a.onclick = ()=>{ S.screen = screen; render(); };
+              /* X75-RAIL: у рейці підпису не видно — він мусить жити в підказці
+                 (стенд :1344). У розгорнутій панелі showTip() її не покаже. */
+              a['data-tip'] = label; }
     else { a['aria-disabled'] = 'true';
            a['aria-label'] = label + ' — екран ще не готовий';
            a['data-tip']   = label + ' · екран ще не готовий'; }
@@ -1115,8 +1148,12 @@ function sidebar(active){
   });
   return el('aside',{class:'sidebar'},[
     el('div',{class:'brand'},[
-      el('div',{class:'brand-mark'},[icon('i-anc')]),
-      el('div',{},[el('b',{text:'Тренажер'}), el('small',{text:'Навчання фармацевтів'})])]),
+      /* X75-RAIL: логотип — важіль стану панелі (стенд :408). type=button, бо
+         в <aside> без type кнопка не сабмітить, але лишається неоднозначною. */
+      el('button',{type:'button', class:'brand-mark', onclick:railToggle,
+        'aria-expanded':String(!V2_RAIL),
+        'aria-label':V2_RAIL ? 'Розгорнути панель' : 'Згорнути панель'},[icon('i-anc')]),
+      el('div',{class:'brand-text'},[el('b',{text:'Тренажер'}), el('small',{text:'Навчання фармацевтів'})])]),
     /* Х23.3 · Х24.3: на E2 (game) і E3 (result) панель несе лише бренд, як макет; вихід — у шапці */
     bare ? null : el('nav',{class:'side-links','aria-label':'Звичайний режим'},links),
     /* низ панелі — двері Х22.4 (§8.1: вхід у кураторський режим під замком) */ bare ? null : door()]);
@@ -1157,7 +1194,11 @@ function v2Tip(){
 }
 function showTip(node){
   const txt = node.getAttribute('data-tip');
-  if(!txt || !node.classList.contains('stub')) return;
+  /* X75-RAIL (стенд :1349): у розгорнутій панелі підказку має лише заглушка —
+     підпис і так видно. У рейці підпису немає в жодного пункту, тож підказку
+     дістають усі. Умова читається зі стану, не з прапорця на вузлі. */
+  if(!txt) return;
+  if(!V2_RAIL && !node.classList.contains('stub')) return;
   const r = node.getBoundingClientRect(), t = v2Tip();
   t.textContent = txt; t.classList.add('on');
   t.style.left = Math.round(r.right + 8) + 'px';
@@ -1173,7 +1214,8 @@ function hideTip(){ const t = document.getElementById('v2-tip'); if(t) t.classLi
 function normalShell(active, body){
   /* Х27-П1 · дім важеля оболонки (12.11): state shell=bare живе атрибутом на .v2,
      як у стенді AE_X27_SIDEBAR_v19. Л-02 · В-49/S59. */
-  return el('div',{class:'v2','data-shell':'bare'},[el('div',{class:'shell'},[sidebar(active), el('main',{},[body])])]);
+  return el('div',{class:'v2','data-shell':'bare','data-mode':V2_RAIL?'rail':'expanded'},
+    [el('div',{class:'shell'},[sidebar(active), el('main',{},[body])])]);
 }
 /* ── /v2 ── */
 
@@ -1261,19 +1303,21 @@ V2.catalog = Catalog;
    'picker' — двері були б однобічні (зайшов зі «Сценаріїв», вийшов у
    «Тренування»). Вхід у розмову з E4 — окремий крок черги разом із
    маршрутом повернення.
-   Колонки — рівно ті поля, що в даних є: no (у 38 з 43 записів), title,
-   who, grp. Номера немає — «На місці», як у мокапі.
+   Колонки — title, who, grp. Колонки «Номер» тут НЕМА (В-64, X73): номер
+   замовлення живе у першій фразі клієнта і в картці розмови.
    Пагінація і вікно сторінок — СПІЛЬНІ з E6 (E6_PAGE, pageWindow):
    другого механізму сторінок у продукті не заводимо.
    Лічильники в селекторі групи — як на E1/E6: фасетні, у межах пошуку.
    Шапка несе лише назву — Х27-П5, вирок оператора S62.
    живе доки: не портовано кураторський екран правки сценаріїв ('ascen'). */
-const E4_COLS = [['no','Номер'], ['title','Назва'], ['who','Клієнт'], ['grp','Група']];
+/* X73-NO-NUMBER · В-64: номер замовлення — реквізит розмови, не вітрини.
+   Колонки лишаються ті, що справді розрізняють сценарії між собою. */
+const E4_COLS = [['title','Назва'], ['who','Клієнт'], ['grp','Група']];
 function Scenarios(){
   const st = S.e4 || (S.e4 = {term:'', grp:'', page:1});
   const all = () => S.SCEN || [];
   const byTerm = () => { const t = st.term.trim().toLowerCase();
-    return all().filter(s => ((s.no ? s.no + ' ' : '') + s.title + ' ' + s.who).toLowerCase().includes(t)); };
+    return all().filter(s => (s.title + ' ' + s.who).toLowerCase().includes(t)); };
   const rows = () => byTerm().filter(s => !st.grp || s.grp===st.grp);
   const redraw = () => fill();
   const search = el('input', {id:'e4-search', type:'search', placeholder:'Пошук сценарію…', value:st.term,
@@ -1294,8 +1338,7 @@ function Scenarios(){
         text:label + ' (' + (value ? base.filter(s => s.grp===value).length : base.length) + ')'})));
     grps.value = st.grp;
     body.replaceChildren(...(part.length ? part.map(s => el('tr', {'data-e4-row':String(s.id)}, E4_COLS.map(([f]) => el('td', {'data-e4-cell':f},
-        f==='no' ? [s.no ? '№ ' + s.no : el('span', {class:'e4-noplace', text:'На місці'})]
-      : f==='title' ? [el('b', {text:s.title})]
+        f==='title' ? [el('b', {text:s.title})]
       : [String(s[f] || '—')]))))
       : [el('tr', {}, [el('td', {colspan:String(E4_COLS.length),
           style:'padding:22px;color:var(--anc-gray);text-align:center', text:'Сценаріїв не знайдено'})])]));
