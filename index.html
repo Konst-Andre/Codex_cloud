@@ -47,7 +47,9 @@ button{cursor:pointer}
 .health{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--anc-positive);font-weight:600}
 .health::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
 .search{width:100%;height:40px;padding:0 12px;border:1px solid var(--anc-field);border-radius:10px;background:#fff}
-.filter-row{display:grid;grid-template-columns:minmax(0,1fr) 40px;gap:8px}
+.filter-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.icon-btn.grp-btn{display:inline-flex;align-items:center;gap:6px;width:auto;padding:0 12px;font-size:13px;font-weight:600;color:var(--anc-text-2)}
+.grp-btn svg{width:18px;height:18px;flex:none}
 .filter-row select{height:40px;padding:0 10px;border:1px solid var(--anc-field);border-radius:10px;background:#fff;min-width:0}
 /* М7: керування групами — квадратна кнопка-інструмент, не чип-фільтр */
 .icon-btn{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--anc-field);border-radius:10px;background:var(--anc-plate);font-size:16px;color:var(--anc-text-2)}
@@ -77,7 +79,7 @@ button{cursor:pointer}
 .grp-sel{height:30px;width:auto;max-width:180px;min-width:0;padding:0 8px;border:1px solid var(--anc-border);border-radius:8px;background:var(--anc-yellow-25);font-size:12px;font-weight:700;color:var(--anc-text-2)}
 .grp-sel.changed{border-color:#E2C36F;box-shadow:inset 3px 0 0 var(--anc-yellow)}
 /* М3/v2.7: назва редагується прямо в шапці */
-.title-in{grid-column:1 / -1;display:block;width:100%;min-width:0;margin-top:2px;padding:5px 10px;border:1px solid transparent;border-bottom:1px dashed var(--anc-field);border-radius:10px 10px 0 0;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%239B9CA1' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11.5 2.5l2 2L6 12l-3 1 1-3z'/%3E%3C/svg%3E") no-repeat left 10px top 14px;padding-left:34px;font-size:24px;line-height:1.3;font-weight:700;letter-spacing:-.01em;field-sizing:content;resize:none;min-height:44px;max-height:76px;overflow-y:auto}
+.title-in{grid-column:1 / -1;display:block;width:100%;min-width:0;margin-top:2px;padding:5px 10px;border:1px solid transparent;border-bottom:1px dashed var(--anc-field);border-radius:10px 10px 0 0;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 16 16' fill='none' stroke='%236E6E77' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11.5 2.5l2 2L6 12l-3 1 1-3z'/%3E%3C/svg%3E") no-repeat left 9px top 13px;padding-left:36px;font-size:24px;line-height:1.3;font-weight:700;letter-spacing:-.01em;field-sizing:content;resize:none;min-height:44px;max-height:76px;overflow-y:auto}
 .title-in:hover{border-color:var(--anc-border);background:#fff}
 .title-in:hover,.title-in:focus{border-radius:10px}
 .title-in:focus{outline:none;border-color:var(--anc-blue);background:#fff;box-shadow:0 0 0 3px var(--anc-blue-25)}
@@ -91,6 +93,7 @@ button{cursor:pointer}
 .del-bar b{font-weight:700}
 .cards.gone,.pv-b.gone{opacity:.45;filter:grayscale(.6);pointer-events:none;user-select:none}
 /* v3.5 · О5: причина блоку публікації — видимий рядок у шапці */
+.pub-why[hidden]{display:none}
 .pub-why{grid-column:1 / -1;display:flex;align-items:center;gap:6px;min-width:0;padding:6px 10px;border-radius:9px;background:var(--loss-5);color:var(--loss);font-size:12.5px;white-space:nowrap;overflow:hidden}
 .pub-why>span{overflow:hidden;text-overflow:ellipsis;min-width:0}
 .pub-why button{border:0;background:none;padding:0;color:var(--anc-blue);font:inherit;font-weight:700;text-decoration:underline;flex:none}
@@ -117,6 +120,7 @@ button{cursor:pointer}
 @container (min-width:700px){ .cards{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .stack{display:flex;flex-direction:column;gap:16px;min-width:0} .eval{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .eval .toggles{margin-top:22px} .eval{align-items:stretch} .eval>.f{margin-bottom:0;grid-template-rows:auto minmax(0,1fr)} .eval #f-goal{height:100%;max-height:none} }
 .card{padding:18px 20px 20px;min-width:0}
 .card h3{margin:0 0 14px;font-size:15px;display:flex;align-items:center;gap:8px}
+.card h3 .info{margin-left:auto}
 .card h3 .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--anc-yellow-25);font-size:14px}
 .f{display:grid;gap:6px;margin-bottom:12px;min-width:0}
 .f:last-child{margin-bottom:0}
@@ -188,7 +192,7 @@ textarea.in.line{min-height:42px;max-height:120px;padding-top:10px;padding-botto
 .pv-b{padding:14px 16px 16px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 .pv-b>*{min-width:0}
 .badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px}
-.badge.grp{display:inline-block;vertical-align:3px;margin-left:6px;background:var(--anc-yellow-25);color:var(--anc-text-2);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge.grp{display:inline-block;vertical-align:middle;margin-left:6px;background:var(--anc-yellow-25);color:var(--anc-text-2);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pv h4{margin:0;font-size:18px;line-height:1.25}
 .who{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;align-items:center}
 .ava{width:40px;height:40px;border-radius:50%;background:var(--anc-blue-25);display:grid;place-items:center;font-weight:800;color:var(--anc-blue)}
@@ -199,6 +203,7 @@ textarea.in.line{min-height:42px;max-height:120px;padding-top:10px;padding-botto
 .sec{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--anc-gray-light);text-transform:uppercase}
 .sep{display:flex;align-items:center;gap:8px;margin-top:4px}
 .sep::after{content:"";flex:1;height:1px;background:var(--anc-border)}
+.pv .pos .cat{color:var(--anc-gray);font-size:11.5px;text-align:right}
 .pv .pos{grid-template-columns:minmax(0,1fr) auto;font-size:12.5px;min-height:34px;padding:6px 10px}
 .pv .hintbox{border:1px dashed var(--anc-positive);border-radius:10px;padding:8px 10px;display:grid;gap:10px;background:#fff}
 .hset{display:grid;gap:4px}
@@ -232,6 +237,8 @@ dialog::backdrop{background:var(--scrim)}
   .pv{grid-column:2;grid-row:2;position:static;max-height:none;max-width:420px}
   .page[data-view=form] .pv{display:none}
   .page[data-view=pv] .editor .cards{display:none}
+  .page{grid-template-rows:auto 1fr} .page[data-view=pv]{row-gap:0}
+  .pv-h{display:none}
 }
 </style>
 </head>
@@ -248,7 +255,7 @@ dialog::backdrop{background:var(--scrim)}
       <input class="search" id="q" type="search" placeholder="Пошук за назвою">
       <div class="filter-row">
         <select id="gf" aria-label="Фільтр за групою"></select>
-        <button class="icon-btn" id="mg" title="Керувати групами: створити, перейменувати, видалити" aria-label="Керувати групами">✎</button>
+        <button class="icon-btn grp-btn" id="mg" title="Керувати групами: створити, перейменувати, видалити" aria-label="Керувати групами"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2h8.5A1.5 1.5 0 0 1 21 9.5v8A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/></svg>Групи</button>
       </div>
       <button class="new-btn" id="newSc">+ Новий сценарій</button>
     </div>
@@ -401,11 +408,11 @@ function drawEditor(){
     <div class="panel card">
       <h3><span class="ic">👤</span>Клієнт</h3>
       <div class="f"><label for="f-who">Хто прийшов</label><textarea class="in line" id="f-who" data-k="who" rows="1">${esc(s.who)}</textarea><span data-m="who"></span></div>
-      <div class="f"><div class="lab"><label for="f-ch">Характер</label><button type="button" class="info" popovertarget="i-char" aria-label="Звідки характери" aria-expanded="false">i</button></div><div class="tip" id="i-char" popover><b>Характер</b>З бібліотеки характерів, розділ «Промпти». Клієнт отримує опис, суддя — типову помилку.</div><select class="in" id="f-ch" data-k="character">${D.chars.map(c=>`<option ${c===s.character?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
+      <div class="f"><div class="lab"><label for="f-ch">Характер</label><button type="button" class="info" popovertarget="i-char" aria-label="Звідки характери" aria-expanded="false">i</button></div><div class="tip" id="i-char" popover><b>Характер</b>Як клієнт поводиться в розмові: що його відкриває, на що закривається. Обирається з 9 готових. Суддя знає, де з таким клієнтом найчастіше помиляються. Змінити опис — розділ «Промпти».</div><select class="in" id="f-ch" data-k="character">${D.chars.map(c=>`<option ${c===s.character?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
       <div class="f"><div class="lab"><label for="f-mood">Настрій</label><span class="cnt" id="cnt"></span></div><textarea class="in" id="f-mood" data-k="mood" rows="2">${esc(s.mood)}</textarea><span data-m="mood"></span></div>
     </div>
     <div class="panel card">
-      <h3><span class="ic">🧾</span>Товари<button type="button" class="info" popovertarget="i-goods" aria-label="Звідки товари" aria-expanded="false">i</button></h3><div class="tip" id="i-goods" popover><b>Товари</b>Категорії й позиції — з Каталогу. Нова категорія — розділ «Каталог».</div>
+      <h3><span class="ic">🧾</span>Товари<button type="button" class="info" popovertarget="i-goods" aria-label="Звідки товари" aria-expanded="false">i</button></h3><div class="tip" id="i-goods" popover><b>Товари</b>Категорії й позиції тут не створюються — ви обираєте з готового Каталогу. Нова категорія, позиція чи ціна — розділ «Каталог».</div>
       <div class="f"><span class="lab" title="Звідси клієнт і фармацевт беруть асортимент">Категорії сценарію</span>
         <div class="chips">${catChips}<select class="chip add" id="addcat" aria-label="Додати категорію"><option value="" hidden>+ Додати</option>${catAdd}</select></div>${msgs(s,'cats')}</div>
       <div class="f"><span class="lab">Клієнт просить <span class="cnt num">${s.order.length?'разом '+money(s.order.reduce((a,c)=>a+(ITEM[c]?.p||0),0)):''}</span></span>
@@ -420,14 +427,14 @@ function drawEditor(){
       <div class="f"><label for="f-open">Перша фраза клієнта</label><div class="quote"><textarea class="in" id="f-open" data-k="open" rows="3">${esc(s.open)}</textarea></div><span data-m="open"></span><div class="no-line" id="m-no"></div></div>
     </div>
     <div class="panel card">
-      <h3><span class="ic">⭐</span>Рекомендації<button type="button" class="info" popovertarget="i-recs" aria-label="Звідки рекомендації" aria-expanded="false">i</button></h3><div class="tip" id="i-recs" popover><b>Рекомендації</b>Лише позиції з категорій сценарію. ВТМ — ідеально, ЗФ — теж добре; орієнтир — за ВТМ.</div>
+      <h3><span class="ic">⭐</span>Рекомендації<button type="button" class="info" popovertarget="i-recs" aria-label="Звідки рекомендації" aria-expanded="false">i</button></h3><div class="tip" id="i-recs" popover><b>Рекомендації</b>Обираєте з позицій категорій цього сценарію (картка «Товари»). ${RULE==='bv'?'ВТМ':'ЗФ'} — найкращий набір, ${RULE==='bv'?'ЗФ':'ВТМ'} — теж добрий. Орієнтир у гривнях фармацевт бачить за ${RULE==='bv'?'ВТМ':'ЗФ'}. Бракує позиції — додайте її в «Каталозі».</div>
       <div class="sets ${s.noSale?'muted':''}">${SETS.map(setBlock).join('')}</div>
     </div>
    </div>
     <div class="panel card wide">
       <h3><span class="ic">🎯</span>Оцінка розмови</h3>
       <div class="eval">
-      <div class="f"><label for="f-goal">Мета розмови</label><textarea class="in" id="f-goal" data-k="goal" rows="3">${esc(s.goal)}</textarea></div>
+      <div class="f"><div class="lab"><label for="f-goal">Мета розмови</label><button type="button" class="info" popovertarget="i-goal" aria-label="Хто бачить мету розмови" aria-expanded="false">i</button></div><div class="tip" id="i-goal" popover><b>Мета розмови</b>Фармацевт бачить це до розмови — не пишіть сюди правильну відповідь.</div><textarea class="in" id="f-goal" data-k="goal" rows="3">${esc(s.goal)}</textarea></div>
       <div class="toggles">
         <div class="tgw"><label class="tg"><input type="checkbox" data-k="trap" ${s.trap?'checked':''}><span>Пастка</span></label><button type="button" class="info" popovertarget="i-trap" aria-label="Що таке «Пастка»" aria-expanded="false">i</button><div class="tip" id="i-trap" popover><b>Пастка</b>Сценарій, де найлегше помилитися: клієнт підштовхує до типової помилки свого характеру. У кожну «Зміну» потрапляє один такий або «Не міняти чек». Як зробити: оберіть характер, що провокує, і ситуацію, де очевидна дія хибна. Фармацевт цієї позначки не бачить.</div></div>
         <div class="tgw"><label class="tg"><input type="checkbox" data-k="noSale" ${s.noSale?'checked':''}><span>Не міняти чек</span></label><button type="button" class="info" popovertarget="i-noSale" aria-label="Що таке «Не міняти чек»" aria-expanded="false">i</button><div class="tip" id="i-noSale" popover><b>Не міняти чек</b>Правильна дія — лишити замовлення як є. Суддя вважає помилкою будь-яку заміну; приріст тут не мета. Фармацевт цієї позначки не бачить.</div></div>
@@ -496,9 +503,10 @@ function drawPreview(s){
     <div class="who"><div class="ava">${esc(ini)}</div><div><b class="wrap">${esc(s.who)}</b><span class="wrap">${esc(s.character)}</span></div></div>
     <div class="mood wrap">${esc(s.mood)}</div>
     <div class="sit wrap">${esc(s.mode)}</div>
+    <div class="sec">Розмова починається з</div>
     <div class="bubble wrap">${esc(s.open)}</div>
     <div class="sec">Просить</div>
-    <div class="rows">${s.order.map(c=>row(c, money(ITEM[c]?.p))).join('') || '<span class="empty">Нічого не називає — вільний вибір</span>'}</div>
+    <div class="rows">${s.order.map(c=>`<div class="pos"><span class="wrap">${esc(ITEM[c]?.n||c)}</span><span class="v cat">${esc(D.cats[ITEM[c]?.cat]?.label||'')}</span></div>`).join('') || '<span class="empty">Нічого не називає — вільний вибір</span>'}</div>
     <div class="sec">Що тренуємо</div>
     <div class="goal wrap">${esc(s.goal)}</div>
     <div class="pot"><small>Орієнтир розмови</small><b class="num">${s.noSale ? '—' : 'до +'+pot.toLocaleString('uk-UA')+' ₴'}</b></div>
