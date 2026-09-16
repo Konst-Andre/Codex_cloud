@@ -54,11 +54,14 @@ button{cursor:pointer}
 .icon-btn:hover{border-color:var(--anc-blue);background:var(--anc-blue-10)}
 .new-btn{height:40px;border:1px dashed var(--anc-blue);border-radius:10px;background:var(--anc-blue-10);color:var(--anc-blue);font-weight:700}
 .scenario-items{overflow:auto;flex:1}
-.scenario-item{display:grid;grid-template-columns:minmax(0,1fr) 10px;align-items:center;gap:10px;width:100%;min-height:58px;padding:9px 15px;border:0;border-bottom:1px solid var(--anc-border);border-left:3px solid transparent;background:#fff;text-align:left}
+.scenario-item{display:grid;grid-template-columns:26px minmax(0,1fr) 10px;align-items:center;gap:10px;width:100%;min-height:58px;padding:9px 15px;border:0;border-bottom:1px solid var(--anc-border);border-left:3px solid transparent;background:#fff;text-align:left}
 .scenario-item:hover,.scenario-item.active{border-left-color:var(--anc-blue);background:var(--anc-yellow-25)}
 /* М8: без колонки номера; назва — до двох рядків */
 .scenario-item b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13px;line-height:1.3}
 .scenario-item small{display:block;margin-top:3px;color:var(--anc-gray);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sid{align-self:start;margin-top:1px;min-width:26px;height:20px;padding:0 5px;border-radius:10px;background:var(--anc-canvas);border:1px solid var(--anc-border);color:var(--anc-gray);font:600 11px/18px ui-monospace,Menlo,Consolas,monospace;text-align:center}
+.scenario-item.active .sid{border-color:var(--anc-blue);color:var(--anc-blue);background:#fff}
+.olya{font-style:normal;font-weight:700;color:var(--loss)}
 .scenario-item.del b{text-decoration:line-through;color:var(--anc-gray)}
 /* v3.5 · О10: нові — нагорі, синій акцент */
 .scenario-item.new{border-left-color:var(--anc-blue);background:var(--anc-blue-10)}
@@ -74,8 +77,9 @@ button{cursor:pointer}
 .grp-sel{height:30px;width:auto;max-width:180px;min-width:0;padding:0 8px;border:1px solid var(--anc-border);border-radius:8px;background:var(--anc-yellow-25);font-size:12px;font-weight:700;color:var(--anc-text-2)}
 .grp-sel.changed{border-color:#E2C36F;box-shadow:inset 3px 0 0 var(--anc-yellow)}
 /* М3/v2.7: назва редагується прямо в шапці */
-.title-in{grid-column:1 / -1;display:block;width:100%;min-width:0;margin-top:2px;padding:5px 10px;border:1px solid transparent;border-radius:10px;background:transparent;font-size:24px;line-height:1.3;font-weight:700;letter-spacing:-.01em;field-sizing:content;resize:none;min-height:44px;max-height:76px;overflow-y:auto}
+.title-in{grid-column:1 / -1;display:block;width:100%;min-width:0;margin-top:2px;padding:5px 10px;border:1px solid transparent;border-bottom:1px dashed var(--anc-field);border-radius:10px 10px 0 0;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%239B9CA1' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11.5 2.5l2 2L6 12l-3 1 1-3z'/%3E%3C/svg%3E") no-repeat right 10px top 14px;padding-right:34px;font-size:24px;line-height:1.3;font-weight:700;letter-spacing:-.01em;field-sizing:content;resize:none;min-height:44px;max-height:76px;overflow-y:auto}
 .title-in:hover{border-color:var(--anc-border);background:#fff}
+.title-in:hover,.title-in:focus{border-radius:10px}
 .title-in:focus{outline:none;border-color:var(--anc-blue);background:#fff;box-shadow:0 0 0 3px var(--anc-blue-25)}
 .title-in.changed{border-color:#E2C36F;background:#fff;box-shadow:inset 3px 0 0 var(--anc-yellow)}
 .title-in.bad{border-color:var(--loss);background:var(--loss-5)}
@@ -110,7 +114,7 @@ button{cursor:pointer}
 .card.wide{grid-column:1 / -1}
 .eval{display:grid;grid-template-columns:minmax(0,1fr);gap:12px 24px;align-items:start}
 @container (max-width:699px){ .cards>.stack:first-child>.card:nth-child(2){order:2} .cards>.stack:last-child>.card:first-child{order:1} .cards>.stack:last-child>.card:last-child{order:3} .card.wide{order:4} }
-@container (min-width:700px){ .cards{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .stack{display:flex;flex-direction:column;gap:16px;min-width:0} .eval{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .eval .toggles{margin-top:22px} }
+@container (min-width:700px){ .cards{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .stack{display:flex;flex-direction:column;gap:16px;min-width:0} .eval{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .eval .toggles{margin-top:22px} .eval{align-items:stretch} .eval>.f{margin-bottom:0;grid-template-rows:auto minmax(0,1fr)} .eval #f-goal{height:100%;max-height:none} }
 .card{padding:18px 20px 20px;min-width:0}
 .card h3{margin:0 0 14px;font-size:15px;display:flex;align-items:center;gap:8px}
 .card h3 .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--anc-yellow-25);font-size:14px}
@@ -170,7 +174,12 @@ textarea.in.line{min-height:42px;max-height:120px;padding-top:10px;padding-botto
 .toggles{display:grid;gap:10px;margin-top:4px}
 .tg{display:grid;grid-template-columns:18px 1fr;gap:10px;align-items:start;font-size:13px}
 .tg input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--anc-blue)}
-.tg small{display:block;color:var(--anc-gray);font-size:11.5px}
+.tgw{display:flex;align-items:start;gap:6px}
+.tgw .tg{flex:1;min-width:0}
+.info{flex:none;width:20px;height:20px;padding:0;border:1px solid var(--anc-field);border-radius:50%;background:#fff;color:var(--anc-gray);font:italic 700 12px/18px Georgia,serif;cursor:pointer}
+.info:hover,.info[aria-expanded=true]{border-color:var(--anc-blue);color:var(--anc-blue)}
+.tip{position:fixed;inset:auto;margin:0;max-width:300px;padding:10px 12px;border:1px solid var(--anc-border);border-radius:10px;background:#fff;box-shadow:0 8px 24px #1C1E2429;font-size:12.5px;line-height:1.45;color:var(--anc-text-2)}
+.tip b{display:block;margin-bottom:4px;color:var(--anc-text)}
 
 /* ── прев'ю ── */
 .pv{position:sticky;top:20px;max-height:calc(100vh - 40px);overflow:auto;min-width:0}
@@ -178,11 +187,9 @@ textarea.in.line{min-height:42px;max-height:120px;padding-top:10px;padding-botto
 .pv-h b{font-size:14px}.pv-h small{display:block;font-size:11.5px;color:var(--anc-gray)}
 .pv-b{padding:14px 16px 16px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 .pv-b>*{min-width:0}
-.pv .top{display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:12px;color:var(--anc-gray);font-weight:700}
-.tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--anc-yellow-25);color:var(--anc-text-2);max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .badges{display:flex;gap:6px;flex-wrap:wrap}
 .badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px}
-.badge.trap{background:var(--loss-10);color:var(--loss)} .badge.keep{background:var(--anc-blue-10);color:var(--anc-blue)} .badge.hint{background:var(--anc-positive-10);color:var(--anc-positive)}
+.badge.grp{background:var(--anc-yellow-25);color:var(--anc-text-2);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pv h4{margin:0;font-size:18px;line-height:1.25}
 .who{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;align-items:center}
 .ava{width:40px;height:40px;border-radius:50%;background:var(--anc-blue-25);display:grid;place-items:center;font-weight:800;color:var(--anc-blue)}
@@ -333,13 +340,13 @@ function drawList(){
   if (st.grp && !G.includes(st.grp)) st.grp='';
   $('#gf').innerHTML = `<option value="">Усі групи · ${live.length}</option>` + G.map(g=>`<option value="${esc(g)}" ${g===st.grp?'selected':''}>${esc(g)} · ${live.filter(id=>cur(id).grp===g).length}</option>`).join('');
   const q = st.q.trim().toLowerCase();
-  const rows = all.slice().sort((a,b)=>(!!st.created[b]-!!st.created[a]) || (st.created[a]&&st.created[b] ? b-a : 0)).filter(id => { const s=cur(id); return (!st.grp||s.grp===st.grp) && (!q || s.title.toLowerCase().includes(q) || String(s.no||'').includes(q)); });
+  const rows = all.slice().sort((a,b)=>(!!st.created[b]-!!st.created[a]) || (st.created[a]&&st.created[b] ? b-a : 0)).filter(id => { const s=cur(id); return (!st.grp||s.grp===st.grp) && (!q || s.title.toLowerCase().includes(q) || String(id)===q); });
   $('#items').innerHTML = rows.map(id => {
     const s=cur(id), ch=changes(id).length||st.del[id], e=errs(s).length, w=checks(s).length-e;
     const mark = e ? 'err' : ch ? 'draft' : w ? 'warn' : '';
     const tip = st.del[id]?'Буде видалено після публікації':e?'Є проблема':ch?'Є неопубліковані зміни':w?'Є попередження':'';
     return `<button class="scenario-item ${id===st.sel?'active':''} ${st.del[id]?'del':''} ${st.created[id]?'new':''}" data-id="${id}">
-      <span><b class="wrap">${esc(s.title||'Без назви')}</b><small>${st.created[id]?'<em class="new-tag">Новий · не опубліковано</em>':esc(s.grp)+' · '+esc(s.character)}</small></span>
+      <span class="sid" title="ID сценарію в коді">${id}</span><span><b class="wrap">${esc(s.title||'Без назви')}</b><small>${st.created[id]?'<em class="new-tag">Новий · не опубліковано</em>':(s.trap?'<em class="olya">пастка</em> · ':'')+(s.noSale?'<em class="olya">не міняти чек</em> · ':'')+esc(s.grp)+' · '+esc(s.character)}</small></span>
       <span class="dot ${mark}" title="${tip}"></span></button>`;
   }).join('') || '<p style="padding:16px;color:var(--anc-gray)">Нічого не знайдено</p>';
 }
@@ -419,9 +426,9 @@ function drawEditor(){
       <div class="eval">
       <div class="f"><label for="f-goal">Мета розмови</label><textarea class="in" id="f-goal" data-k="goal" rows="3">${esc(s.goal)}</textarea></div>
       <div class="toggles">
-        <label class="tg"><input type="checkbox" data-k="trap" ${s.trap?'checked':''}><span>Пастка<small>Кандидат на місце «пастки» в кожній «Зміні» (одне таке місце на зміну)</small></span></label>
-        <label class="tg"><input type="checkbox" data-k="noSale" ${s.noSale?'checked':''}><span>Правильно — не міняти чек<small>Приріст не рахується, будь-яка заміна вважається помилкою</small></span></label>
-        <label class="tg"><input type="checkbox" data-k="hint" ${s.hint?'checked':''}><span>Підказка фармацевту до розмови<small>Показати ідеальний набір і заробіток ще до першої фрази</small></span></label>
+        <div class="tgw"><label class="tg"><input type="checkbox" data-k="trap" ${s.trap?'checked':''}><span>Пастка</span></label><button type="button" class="info" popovertarget="i-trap" aria-label="Що таке «Пастка»" aria-expanded="false">i</button><div class="tip" id="i-trap" popover><b>Пастка</b>Сценарій, де найлегше помилитися: клієнт підштовхує до типової помилки свого характеру. У кожну «Зміну» потрапляє один такий або «Не міняти чек». Як зробити: оберіть характер, що провокує, і ситуацію, де очевидна дія хибна. Фармацевт цієї позначки не бачить.</div></div>
+        <div class="tgw"><label class="tg"><input type="checkbox" data-k="noSale" ${s.noSale?'checked':''}><span>Правильно — не міняти чек</span></label><button type="button" class="info" popovertarget="i-noSale" aria-label="Що таке «Правильно — не міняти чек»" aria-expanded="false">i</button><div class="tip" id="i-noSale" popover><b>Правильно — не міняти чек</b>Правильна дія — лишити замовлення як є. Суддя вважає помилкою будь-яку заміну; приріст тут не мета. Фармацевт цієї позначки не бачить.</div></div>
+        <div class="tgw"><label class="tg"><input type="checkbox" data-k="hint" ${s.hint?'checked':''}><span>Підказка фармацевту до розмови</span></label><button type="button" class="info" popovertarget="i-hint" aria-label="Що таке «Підказка фармацевту до розмови»" aria-expanded="false">i</button><div class="tip" id="i-hint" popover><b>Підказка фармацевту до розмови</b>Перед першою фразою фармацевт бачить ідеальний набір і скільки на ньому можна заробити. Для новачків і розбору складних випадків.</div></div>
       </div>
       </div>
     </div>
@@ -472,11 +479,10 @@ function drawPreview(s){
   const ideal = s[RULE], setLab = RULE==='bv'?'ВТМ':'ЗФ';
   const ini=(s.who||'?').trim()[0]||'?';
   const row = (c, v) => `<div class="pos"><span class="wrap">${esc(ITEM[c]?.n||c)}</span><span class="v num">${v}</span></div>`;
-  const badges = [s.trap?'<span class="badge trap">Пастка</span>':'', s.noSale?'<span class="badge keep">Не міняти чек</span>':'', s.hint?'<span class="badge hint">З підказкою</span>':''].join('');
+  const badges = `<span class="badge grp" title="${esc(s.grp)}">${esc(s.grp)}</span>`;
   $('#pv').innerHTML = `
-    <div class="top"><span class="tag" title="${esc(s.grp)}">${esc(s.grp)}</span></div>
     <h4 class="wrap">${esc(s.title||'Без назви')}</h4>
-    ${badges?`<div class="badges">${badges}</div>`:''}
+    <div class="badges">${badges}</div>
     <div class="who"><div class="ava">${esc(ini)}</div><div><b class="wrap">${esc(s.who)}</b><span class="wrap">${esc(s.character)}</span></div></div>
     <div class="mood wrap">${esc(s.mood)}</div>
     <div class="sit wrap">${esc(s.mode)}</div>
@@ -491,6 +497,15 @@ function drawPreview(s){
          ${s.hint?'':`<div class="sum"><span>Можна заробити до замовлення</span><b class="num">+${money(bonus(ideal)-bonus(s.order))}</b></div>`}`}
     <div class="goal wrap">${esc(s.goal)}</div>`;
 }
+
+/* ── «i»: віконце біля кнопки, не посеред екрана (В-106) ── */
+document.addEventListener('toggle', e => { const tip=e.target; if(!tip.classList||!tip.classList.contains('tip')) return;
+  const btn=document.querySelector(`[popovertarget="${tip.id}"]`); if(!btn) return;
+  btn.setAttribute('aria-expanded', e.newState==='open');
+  if(e.newState!=='open') return;
+  const r=btn.getBoundingClientRect(), w=tip.offsetWidth, h=tip.offsetHeight, vw=document.documentElement.clientWidth, vh=innerHeight;
+  let left=Math.min(Math.max(8, r.right-w), vw-w-8), top=r.bottom+6; if(top+h>vh-8) top=Math.max(8, r.top-h-6);
+  tip.style.left=left+'px'; tip.style.top=top+'px'; }, true);
 
 /* ── діалог підтвердження (замість confirm/prompt браузера, К11) ── */
 function ask(title, text, yes, fn){ $('#dct').textContent=title; $('#dcp').textContent=text; $('#dcYes').textContent=yes; const d=$('#dc'); d._fn=fn; d.showModal(); }
